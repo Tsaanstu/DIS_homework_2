@@ -1,0 +1,53 @@
+body {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+button.btn_list {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 200px;
+    height: 40px;
+}
+
+button.btn_list:hover {
+    color: #fff;
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+button.btn_list:focus, .btn-secondary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
+}
+
+button.btn_list.disabled, .btn-secondary:disabled {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+button.btn_list:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,
+.show > .btn-secondary.dropdown-toggle {
+    color: #fff;
+    background-color: #545b62;
+    border-color: #4e555b;
+}
+
+button.btn_list:not(:disabled):not(.disabled):active:focus, .btn-secondary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-secondary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
+}
+
+.user_name {
+    font-size: 20px;
+    text-decoration: underline;
+    color: #007bff;
+}
+
+.headline {
+    font-size: 25px;
+    font-style: italic;
+}

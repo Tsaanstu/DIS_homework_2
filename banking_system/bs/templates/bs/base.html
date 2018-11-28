@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Development of information systems, homework">
+    <meta name="author" content="Tsaanstu">
+    {% block title %}
+    <title>РазИнфСисБанк</title>
+    {% endblock %}
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/index.css" %}">
+
+</head>
+
+<body>
+<header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-white">
+          <div class="d-flex flex-grow-1">
+              <a class="navbar-brand" href="index.html"><span class="headline"> РазИнфСисБанк</span></a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="form-inline collapse navbar-collapse" id="navbarCollapse">
+              <ul class="navbar-nav mr-auto">
+
+                  <form class="form-inline mt-2 mt-md-0">
+                      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                  </form>
+              </ul>
+              <ui class="navbar-nav mr-auto">
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text_style">Mr. Anonimus</span>
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                          <a class="nav-link dropdown-item" href="settings.html"><span class="text_style">Settings</span></a>
+                          <a class="nav-link dropdown-item" href="index.html.html"><span class="text_style">Log Out</span></a>
+                      </div>
+                  </li>
+              </ui>
+          </div>
+
+      </nav>
+
+</header>
+
+    {% block content %}{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="{% static "js/jquery.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+</body>
+</html>

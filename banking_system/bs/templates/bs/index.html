@@ -1,0 +1,27 @@
+{% include "bs/base.html" %}
+{% load static %}
+{% block content %}
+    <!-- Begin page content -->
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <span class="headline">Клиенты</span>
+                </div>
+                {% for user in users %}
+                <div class="row">
+                    <div class="col-lg-3">
+                        <a class="nav-link" href="#"><span class="user_name">{{user.name}}</span></a>
+                    </div>
+                    <button type="button" class="btn_list">Редактировать</button>
+                    <button type="button" class="btn_list">Отчёты</button>
+                    <button type="button" class="btn_list">Перевод</button>
+                </div>
+                {% endfor %}
+                <br>
+                {% include "bs/paginator.html" %}
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
