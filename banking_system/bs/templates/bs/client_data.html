@@ -1,0 +1,48 @@
+{% include "bs/base.html" %}
+{% load static %}
+{% block content %}
+{% include "bs/nav_panel.html" %}
+
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="headline">{{client_data.full_name}}</div>
+            </div>
+            <div class="row">
+                <form method="POST" onsubmit="return confirm('Применить изменения?');">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="InputLogin"><span class="text_style">Логин</span></label>
+                        <input class="form-control" id="InputLogin" name="InputLogin" value={{client_data.login}}>
+                    </div>
+                    <div class="form-group">
+                        <label for="InputBirthday"><span class="text_style">Дата рождения</span></label>
+                        <input class="form-control" id="InputBirthday" name="InputBirthday" disabled value={{client_data.birthday}}>
+                    </div>
+                    <div class="form-group">
+                        <label for="InputContractNumber"><span class="text_style">Номер контракта</span></label>
+                        <input class="form-control" id="InputContractNumber" name="InputContractNumber" disabled value={{client_data.contract_number}}>
+                    </div>
+                    <div class="form-group">
+                        <label for="InputDateConclusion"><span
+                                class="text_style">Дата заключения договора</span></label>
+                        <input class="form-control" id="InputDateConclusion" name="InputDateConclusion" disabled value={{client_data.date_conclusion}}>
+                    </div>
+                    <div class="form-group">
+                        <label for="InputTel"><span class="text_style">Телефонный номер</span></label>
+                        <input class="form-control" id="InputTel" name="InputTel" value={{client_data.tel}}>
+                    </div>
+                    <div class="form-group">
+                        <label for="InputAddress"><span class="text_style">Адрес</span></label>
+                        <input class="form-control" id="InputAddress" name="InputAddress" value={{client_data.address}}>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-outline-secondary button_update">Обновить</button>
+                    <br><br>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

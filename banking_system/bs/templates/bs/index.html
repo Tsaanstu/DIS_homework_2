@@ -9,14 +9,14 @@
                 <div class="row">
                     <span class="headline">Клиенты</span>
                 </div>
-                {% for user in users %}
+                {% for client in clients %}
                 <div class="row">
                     <div class="col-lg-3">
-                        <a class="nav-link" href="#"><span class="user_name">{{user.full_name}}</span></a>
+                        <a class="nav-link" href="{% url 'client_data' client.id %}"><span class="user_name">{{client.full_name}}</span></a>
                     </div>
-                    <button type="button" class="btn_list">Редактировать</button>
-                    <button type="button" class="btn_list">Отчёты</button>
-                    <button type="button" class="btn_list">Перевод</button>
+                    <a class="btn btn-secondary btn_list edit" id={{client.id}} href="{% url 'client_data' client.id %}" role="button">Редактировать</a>
+                    <a class="btn btn-secondary btn_list report" id={{client.id}} href="{% url 'report' client.id %}" role="button">Отчёты</a>
+                    <a class="btn btn-secondary btn_list transfer" id={{client.id}} href="{% url 'transfer' client.id %}" role="button">Перевод</a>
                 </div>
                 {% endfor %}
                 <br>
@@ -24,5 +24,4 @@
             </div>
         </div>
     </main>
-
 {% endblock %}
