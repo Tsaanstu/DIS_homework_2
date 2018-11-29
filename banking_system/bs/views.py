@@ -37,10 +37,6 @@ def transfer(request, id):
 
 def client_data(request, id):
     if request.method == "POST":
-        print(request.POST["InputLogin"])
-        print(request.POST["InputTel"])
-        print(request.POST["InputAddress"])
-
         conn = sqlite3.connect("db.sqlite3")
         cursor = conn.cursor()
         input_data = [(request.POST["InputLogin"], request.POST["InputTel"], request.POST["InputAddress"], id)]
@@ -51,3 +47,17 @@ def client_data(request, id):
     client_data.birthday = str(client_data.birthday)
     client_data.date_conclusion = str(client_data.date_conclusion)
     return render(request, 'bs/client_data.html', {"client_data": client_data})
+
+
+def report(request, id):
+    # if request.method == "POST":
+    #     conn = sqlite3.connect("db.sqlite3")
+    #     cursor = conn.cursor()
+    #     input_data = [(request.POST["InputLogin"], request.POST["InputTel"], request.POST["InputAddress"], id)]
+    #     cursor.executemany("UPDATE bs_client SET login=?, tel=?, address=? WHERE id=?", input_data)
+    #     conn.commit()
+
+    # client_data = Client.objects.get(pk=id)
+    # client_data.birthday = str(client_data.birthday)
+    # client_data.date_conclusion = str(client_data.date_conclusion)
+    return render(request, 'bs/report.html', {})#{"client_data": client_data})
