@@ -33,7 +33,7 @@ def FAKE_CLIENT():
 def FAKE_ACCOUNT():
 	conn = sqlite3.connect("db.sqlite3")
 	cursor = conn.cursor()
-	for i in range(CLIENT_START_ID, CLIETN_AND_ID):
+	for i in range(CLIENT_START_ID, CLIETN_AND_ID + 1):
 		for j in range(0, NUM_ACCOUNT):
 			update_time = date.today()
 			currency = CURRENCY[random.randint(0, 2)]
