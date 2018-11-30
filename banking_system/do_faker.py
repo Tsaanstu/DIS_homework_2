@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, date, time
-from faker import Factory
+from faker import Factory, Faker
 import sqlite3
 import random
 
-MAX_CLIENT = 115
+MAX_CLIENT = 200
 CLIENT_START_ID = 1
-CLIETN_AND_ID = 115
+CLIETN_AND_ID = 200
 NUM_ACCOUNT = 3
+TRANSFER_NUM = 10000
 
 CURRENCY = ["RUB", "USD", "EUR"]
 
@@ -24,7 +25,7 @@ def FAKE_CLIENT():
 		contract_number = hash(login + str(birthday)) 
 		if contract_number < 0:
 			contract_number *= -1
-		date_conclusion = date.today()
+		date_conclusion = faker.date_time_between(start_date="-10y", end_date="-5y", tzinfo=None)
 		tel = '+79999999999'
 		address = 'Moscow'
 		input_data = [(full_name, login, birthday, contract_number, date_conclusion, tel, address)]
@@ -48,7 +49,7 @@ def FAKE_ACCOUNT():
 
 
 def FAKE_TRANSFER():
-	for i in range(0, 2):
+	for i in range(0, TRANSFER_NUM):
 		make_a_transfer()
 
 
@@ -60,10 +61,12 @@ def history_of_changes(old_balance, new_balance, reason, update_time, acc_id):
 	return int(cursor.lastrowid)
 
 def make_a_transfer():
+	faker = Factory.create()
 	conn = sqlite3.connect("db.sqlite3")
 	cursor = conn.cursor()
 	first_id = random.randint(0, MAX_CLIENT * NUM_ACCOUNT)
 	second_id = random.randint(0, MAX_CLIENT * NUM_ACCOUNT)
+
 	while first_id == second_id:
 		random.randint(0, MAX_CLIENT * NUM_ACCOUNT)
 
@@ -86,7 +89,7 @@ def make_a_transfer():
 		koef = float(cursor.fetchall()[0][0])
 	second_new_sum = second_old_sum + transfer_sum * koef
 
-	date = datetime.today().strftime('%Y-%m-%d')
+	date = faker.date_time_between(start_date="-10y", end_date="now", tzinfo=None)
 
 	first_hid_id = history_of_changes(first_old_sum, first_new_sum, "transfer", date, first_id)
 	second_hid_id = history_of_changes(second_old_sum, second_new_sum, "transfer", date, second_id)
@@ -97,5 +100,6 @@ def make_a_transfer():
 	conn.commit()
 
 
-
-make_a_transfer()
+FAKE_CLIENT()
+FAKE_ACCOUNT()
+FAKE_TRANSFER()
