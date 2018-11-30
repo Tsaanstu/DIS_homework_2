@@ -11,6 +11,7 @@ NUM_ACCOUNT = 3
 
 CURRENCY = ["RUB", "USD", "EUR"]
 
+
 def FAKE_CLIENT():
 	conn = sqlite3.connect("db.sqlite3")
 	cursor = conn.cursor()
@@ -30,6 +31,7 @@ def FAKE_CLIENT():
 		cursor.executemany('INSERT INTO bs_client (full_name, login, birthday, contract_number, date_conclusion, tel, address) VALUES (?, ?, ?, ?, ?, ?, ?)', input_data)
 	conn.commit()
 
+
 def FAKE_ACCOUNT():
 	conn = sqlite3.connect("db.sqlite3")
 	cursor = conn.cursor()
@@ -44,4 +46,56 @@ def FAKE_ACCOUNT():
 			cursor.executemany('INSERT INTO bs_account (update_time, currency, balance, cl_id_id) VALUES (?, ?, ?, ?)', input_data)
 	conn.commit()
 
-FAKE_ACCOUNT()
+
+def FAKE_TRANSFER():
+	for i in range(0, 2):
+		make_a_transfer()
+
+
+def history_of_changes(old_balance, new_balance, reason, update_time, acc_id):
+	conn = sqlite3.connect("db.sqlite3")
+	cursor = conn.cursor()
+	cursor.execute('INSERT INTO bs_history_of_changes (old_balance, new_balance, reason, update_time, acc_id_id) VALUES (?, ?, ?, ?, ?)', (old_balance, new_balance, reason, update_time, acc_id))
+	conn.commit()
+	return int(cursor.lastrowid)
+
+def make_a_transfer():
+	conn = sqlite3.connect("db.sqlite3")
+	cursor = conn.cursor()
+	first_id = random.randint(0, MAX_CLIENT * NUM_ACCOUNT)
+	second_id = random.randint(0, MAX_CLIENT * NUM_ACCOUNT)
+	while first_id == second_id:
+		random.randint(0, MAX_CLIENT * NUM_ACCOUNT)
+
+	cursor.execute("SELECT currency FROM bs_account WHERE id = ?", (first_id,))
+	first_cur = cursor.fetchall()[0][0]
+	cursor.execute("SELECT currency FROM bs_account WHERE id = ?", (second_id,))
+	second_cur = cursor.fetchall()[0][0]
+
+	cursor.execute("SELECT balance FROM bs_account WHERE id = ?", (first_id,))
+	first_old_sum = float(cursor.fetchall()[0][0])
+	cursor.execute("SELECT balance FROM bs_account WHERE id = ?", (second_id,))
+	second_old_sum = float(cursor.fetchall()[0][0])
+
+	transfer_sum = float(random.randint(1, first_old_sum))
+	first_new_sum = first_old_sum - transfer_sum
+
+	koef = 1
+	if (first_cur != second_cur):
+		cursor.execute("SELECT cost FROM bs_rate WHERE source_currency = ? AND final_currency = ?", (first_cur, second_cur,))
+		koef = float(cursor.fetchall()[0][0])
+	second_new_sum = second_old_sum + transfer_sum * koef
+
+	date = datetime.today().strftime('%Y-%m-%d')
+
+	first_hid_id = history_of_changes(first_old_sum, first_new_sum, "transfer", date, first_id)
+	second_hid_id = history_of_changes(second_old_sum, second_new_sum, "transfer", date, second_id)
+
+	cursor.execute(
+		'INSERT INTO bs_transfer (tr_date, source_currency, source_sum, final_currency, final_sum, final_his_id_id, source_his_id_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
+		(date, first_cur, transfer_sum, second_cur, transfer_sum * koef, first_hid_id, second_hid_id))
+	conn.commit()
+
+
+
+make_a_transfer()
