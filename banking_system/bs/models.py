@@ -7,6 +7,16 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.auth.models import AbstractUser
 
 
+class IdClientData():
+    def __init__(self, id, client_name, string_data):
+        self.id = id
+        self.client_name = client_name
+        self.string_data = string_data
+    id = int()
+    client_name = str()
+    string_data = str()
+
+
 class User(AbstractUser):
     upload = models.ImageField(upload_to='uploads/%Y/%m/%d/')
 

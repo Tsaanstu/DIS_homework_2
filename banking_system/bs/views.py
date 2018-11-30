@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from bs.models import User, Client, Account, History_of_changes, Transfer, Rate
+from bs.models import User, Client, Account, History_of_changes, Transfer, Rate, IdClientData
 import sqlite3
 from django.http import HttpResponse
 
@@ -50,14 +50,11 @@ def client_data(request, id):
 
 
 def report(request, id):
-    # if request.method == "POST":
-    #     conn = sqlite3.connect("db.sqlite3")
-    #     cursor = conn.cursor()
-    #     input_data = [(request.POST["InputLogin"], request.POST["InputTel"], request.POST["InputAddress"], id)]
-    #     cursor.executemany("UPDATE bs_client SET login=?, tel=?, address=? WHERE id=?", input_data)
-    #     conn.commit()
+    db_accounts = Account.objects.all().filter(cl_id=id)
+    accounts = list()
+    for i in db_accounts:
+        client_name = Client.objects.get(pk=id)
+        client_name = str(client_name.full_name)
+        accounts.append(IdClientData(i.id, client_name, "Счёт №" + str(i.id) + ", дата обновления: " + str(i.update_time) + "; валюта: " + str(i.currency) + ", " + str(i.balance)))
 
-    # client_data = Client.objects.get(pk=id)
-    # client_data.birthday = str(client_data.birthday)
-    # client_data.date_conclusion = str(client_data.date_conclusion)
-    return render(request, 'bs/report.html', {})#{"client_data": client_data})
+    return render(request, 'bs/report.html', {"accounts": accounts})
