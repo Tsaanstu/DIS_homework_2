@@ -43,7 +43,6 @@ def FAKE_ACCOUNT():
 			balance = random.randint(0, 100000)
 			cl_id_id = i
 			input_data = [(update_time, currency, balance, cl_id_id)]
-			print(input_data)
 			cursor.executemany('INSERT INTO bs_account (update_time, currency, balance, cl_id_id) VALUES (?, ?, ?, ?)', input_data)
 	conn.commit()
 
@@ -64,11 +63,11 @@ def make_a_transfer():
 	faker = Factory.create()
 	conn = sqlite3.connect("db.sqlite3")
 	cursor = conn.cursor()
-	first_id = random.randint(0, MAX_CLIENT * NUM_ACCOUNT)
-	second_id = random.randint(0, MAX_CLIENT * NUM_ACCOUNT)
+	first_id = random.randint(1, MAX_CLIENT * NUM_ACCOUNT)
+	second_id = random.randint(1, MAX_CLIENT * NUM_ACCOUNT)
 
 	while first_id == second_id:
-		random.randint(0, MAX_CLIENT * NUM_ACCOUNT)
+		second_id = random.randint(1, MAX_CLIENT * NUM_ACCOUNT)
 
 	cursor.execute("SELECT currency FROM bs_account WHERE id = ?", (first_id,))
 	first_cur = cursor.fetchall()[0][0]
@@ -89,7 +88,7 @@ def make_a_transfer():
 		koef = float(cursor.fetchall()[0][0])
 	second_new_sum = second_old_sum + transfer_sum * koef
 
-	date = faker.date_time_between(start_date="-10y", end_date="now", tzinfo=None)
+	date = faker.date_time_between(start_date="-4y", end_date="now", tzinfo=None)
 
 	first_hid_id = history_of_changes(first_old_sum, first_new_sum, "transfer", date, first_id)
 	second_hid_id = history_of_changes(second_old_sum, second_new_sum, "transfer", date, second_id)
@@ -99,7 +98,10 @@ def make_a_transfer():
 		(date, first_cur, transfer_sum, second_cur, transfer_sum * koef, first_hid_id, second_hid_id))
 	conn.commit()
 
-
+print("CLIENT")
 FAKE_CLIENT()
+print("ACCOUNT")
 FAKE_ACCOUNT()
+print("TRANSFER")
 FAKE_TRANSFER()
+print("END")
