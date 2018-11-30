@@ -5,7 +5,7 @@ import sqlite3
 from django.http import HttpResponse
 
 def paginator(user_list, request):
-    paginator = Paginator(user_list, 10)
+    paginator = Paginator(user_list, 15)
 
     page = request.GET.get('page')
     try:

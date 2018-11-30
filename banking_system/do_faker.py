@@ -8,7 +8,7 @@ MAX_CLIENT = 200
 CLIENT_START_ID = 1
 CLIETN_AND_ID = 200
 NUM_ACCOUNT = 3
-TRANSFER_NUM = 10000
+TRANSFER_NUM = 2000
 
 CURRENCY = ["RUB", "USD", "EUR"]
 
@@ -25,7 +25,7 @@ def FAKE_CLIENT():
 		contract_number = hash(login + str(birthday)) 
 		if contract_number < 0:
 			contract_number *= -1
-		date_conclusion = faker.date_time_between(start_date="-10y", end_date="-5y", tzinfo=None)
+		date_conclusion = faker.date_time_between(start_date="-10y", end_date="-5y", tzinfo=None).date()
 		tel = '+79999999999'
 		address = 'Moscow'
 		input_data = [(full_name, login, birthday, contract_number, date_conclusion, tel, address)]
@@ -88,7 +88,7 @@ def make_a_transfer():
 		koef = float(cursor.fetchall()[0][0])
 	second_new_sum = second_old_sum + transfer_sum * koef
 
-	date = faker.date_time_between(start_date="-4y", end_date="now", tzinfo=None)
+	date = faker.date_time_between(start_date="-2y", end_date="now", tzinfo=None).date()
 
 	first_hid_id = history_of_changes(first_old_sum, first_new_sum, "transfer", date, first_id)
 	second_hid_id = history_of_changes(second_old_sum, second_new_sum, "transfer", date, second_id)
