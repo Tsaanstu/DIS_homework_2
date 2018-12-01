@@ -32,7 +32,17 @@ def report(request, id):
 
 
 def transfer(request, id):
-    return render(request, 'bs/transfer.html', {})
+    # if request.method == "POST":
+    #     print(request.POST.get("account_num"))
+
+    db_accounts = Account.objects.all().filter(cl_id=id)
+    accounts = list()
+    for i in db_accounts:
+        client_name = Client.objects.get(pk=id)
+        client_name = str(client_name.full_name)
+        accounts.append(IdClientData(i.id, client_name, "Счёт №" + str(i.id) + ", дата обновления: " + str(
+            i.update_time) + "; валюта: " + str(i.currency) + ", " + str(i.balance)))
+    return render(request, 'bs/transfer.html', {"accounts": accounts})
 
 
 def client_data(request, id):
