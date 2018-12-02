@@ -20,7 +20,7 @@
                             <strong>Выберите номер исходящего счета</strong>
                         </div>
                         <div>
-                            <select name="outgoing_account_num">
+                            <select id="outgoing_account_num">
                                 {% for account in accounts %}
                                 <option value={{account.id}}>{{account.string_data}}</option>
                                 {% endfor %}
@@ -32,7 +32,7 @@
                             <strong>Выберите номер входящего счета</strong>
                         </div>
                         <div>
-                            <select name="incoming_account_num">
+                            <select id="incoming_account_num">
                                 {% for account in accounts %}
                                 <option value={{account.id}}>{{account.string_data}}</option>
                                 {% endfor %}

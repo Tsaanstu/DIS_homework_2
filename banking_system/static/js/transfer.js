@@ -1,9 +1,11 @@
-function currency_conversion(сur_name_1, cur_name_2) {
+function currency_conversion() {
     var koef;
     $.ajax({
         type: "GET",
         url: "conversion/",
         data: {
+            'outgoing_account_num': $("#outgoing_account_num").val(),
+            'incoming_account_num': $("#incoming_account_num").val(),
         },
         dataType: "text",
         cache: false,
@@ -16,11 +18,11 @@ function currency_conversion(сur_name_1, cur_name_2) {
 }
 
 function conversion_first() {
-    var koef = currency_conversion('RUB', 'EUR');
+    var koef = currency_conversion();
     currency_2.value = currency_1.value * koef;
 }
 
 function conversion_second() {
-    var koef = currency_conversion('EUR', 'RUB');
+    var koef = currency_conversion();
     currency_1.value = currency_2.value * koef;
 }

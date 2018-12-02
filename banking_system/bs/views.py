@@ -31,10 +31,23 @@ def report(request, id):
     return render(request, 'bs/report.html', {})
 
 
-def conversion(request):#, cur1, cur2):
-    koef = float(1.5)
-    print("koef = ", end="")
-    print(koef)
+def conversion(request):
+    first_id = request.GET["outgoing_account_num"]
+    second_id = request.GET["incoming_account_num"]
+
+    conn = sqlite3.connect("db.sqlite3")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT currency FROM bs_account WHERE id = ?", (first_id,))
+    first_cur = cursor.fetchall()[0][0]
+    cursor.execute("SELECT currency FROM bs_account WHERE id = ?", (second_id,))
+    second_cur = cursor.fetchall()[0][0]
+
+    koef = 1
+    if (first_cur != second_cur):
+        cursor.execute("SELECT cost FROM bs_rate WHERE source_currency = ? AND final_currency = ?", (first_cur, second_cur,))
+        koef = float(cursor.fetchall()[0][0])
+
     return HttpResponse(koef, content_type='text/html')
 
 
