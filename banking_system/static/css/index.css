@@ -3,6 +3,11 @@ body {
     color: #000000;
 }
 
+.report {
+    width: 400px;
+    height: 40px;
+}
+
 .btn_list {
     color: #fff;
     background-color: #6c757d;

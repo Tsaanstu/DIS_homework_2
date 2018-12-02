@@ -9,7 +9,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('client_data/<int:id>/', views.client_data, name='client_data'),
     path('transfer/<int:id>/', views.transfer, name='transfer'),
-    path('report/<int:id>/', views.report, name='report'),
+    path('replenishment/<int:id>/', views.replenishment, name='replenishment'),
+    path('removal/<int:id>/', views.removal, name='removal'),
+    path('error_removal/<int:id>/', views.error_removal, name='error_removal'),
+    path('monthly_report/', views.monthly_report, name='monthly_report'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'conversion/', views.conversion, name='conversion'),
 ]

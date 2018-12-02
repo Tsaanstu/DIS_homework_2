@@ -59,6 +59,7 @@ def history_of_changes(old_balance, new_balance, reason, update_time, acc_id):
 	conn.commit()
 	return int(cursor.lastrowid)
 
+
 def make_a_transfer():
 	faker = Factory.create()
 	conn = sqlite3.connect("db.sqlite3")

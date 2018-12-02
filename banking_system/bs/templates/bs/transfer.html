@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 {% include "bs/nav_panel.html" %}
-
+{% if user.is_authenticated %}
 <script src="{% static 'js/transfer.js' %}"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 
@@ -20,7 +20,7 @@
                             <strong>Выберите номер исходящего счета</strong>
                         </div>
                         <div>
-                            <select id="outgoing_account_num">
+                            <select id="outgoing_account_num" name="outgoing_account_num">
                                 {% for account in accounts %}
                                 <option value={{account.id}}>{{account.string_data}}</option>
                                 {% endfor %}
@@ -32,7 +32,7 @@
                             <strong>Выберите номер входящего счета</strong>
                         </div>
                         <div>
-                            <select id="incoming_account_num">
+                            <select id="incoming_account_num" name="incoming_account_num">
                                 {% for account in accounts %}
                                 <option value={{account.id}}>{{account.string_data}}</option>
                                 {% endfor %}
@@ -45,8 +45,8 @@
                         <label for="currency_1"> Сумма в валюте исходного счёта</label>
                     </div>
                     <div class="col-lg-6">
-                        <input id="currency_1">
-                        <button type="button" class="btn btn-secondary" id="currency_1_button" style="margin-left: 3%;" onclick="conversion_first()"> Отобразить в исходной валюте </button><br>
+                        <input id="currency_1" name="currency_1">
+                        <button type="button" class="btn btn-secondary" id="currency_1_button" style="margin-left: 3%;" onclick="conversion_first()"> Отобразить в валюте получателя</button><br>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 5%;">
@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-lg-6">
                         <input id="currency_2">
-                        <button type="button" class="btn btn-secondary" id="currency_2_button" style="margin-left: 3%;" onclick="conversion_second()"> Отобразить в конечной валюте </button>
+                        <button type="button" class="btn btn-secondary" id="currency_2_button" style="margin-left: 3%;" onclick="conversion_second()"> Отобразить в валюте отправителя</button>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-secondary" class="btn btn-secondary" style="margin-top: 5%;"> Совершить перевод </button>
@@ -64,4 +64,5 @@
     </div>
     </div>
 </main>
+{% endif %}
 {% endblock %}

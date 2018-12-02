@@ -3,6 +3,7 @@
 {% block content %}
 {% include "bs/nav_panel.html" %}
 
+{% if user.is_authenticated %}
 <main role="main" class="container">
     <div class="row">
         <div class="col-lg-12">
@@ -45,4 +46,5 @@
         </div>
     </div>
 </main>
+{% endif %}
 {% endblock %}

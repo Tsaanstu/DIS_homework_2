@@ -2,26 +2,43 @@
 {% load static %}
 {% block content %}
 {% include "bs/nav_panel.html" %}
-    <!-- Begin page content -->
-    <main role="main" class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
-                    <span class="headline">Клиенты</span>
+
+{% if user.is_authenticated %}
+вы авторизованы
+{% if perms.bs.client.add_client %}
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="row">
+                <span class="headline">Клиенты</span>
+            </div>
+            {% for client in clients %}
+            <div class="row">
+                <div class="col-lg-3">
+                    <a class="nav-link" href="{% url 'client_data' client.id %}"><span class="user_name">{{client.full_name}}</span></a>
                 </div>
-                {% for client in clients %}
-                <div class="row">
-                    <div class="col-lg-3">
-                        <a class="nav-link" href="{% url 'client_data' client.id %}"><span class="user_name">{{client.full_name}}</span></a>
-                    </div>
-                    <a class="btn btn-secondary btn_list edit" id={{client.id}} href="{% url 'client_data' client.id %}" role="button">Редактировать</a>
-                    <a class="btn btn-secondary btn_list report" id={{client.id}} href="{% url 'report' client.id %}" role="button">Отчёты</a>
-                    <a class="btn btn-secondary btn_list transfer" id={{client.id}} href="{% url 'transfer' client.id %}" role="button">Перевод</a>
-                </div>
-                {% endfor %}
-                <br>
-                {% include "bs/paginator.html" %}
+                <a class="btn btn-secondary btn_list" id={{client.id}} href="{% url 'transfer' client.id %}"
+                   role="button">Перевод</a>
+                <a class="btn btn-secondary btn_list" id={{client.id}}
+                   href="{% url 'replenishment' client.id %}" role="button">Пополнить счёт</a>
+                <a class="btn btn-secondary btn_list" id={{client.id}} href="{% url 'removal' client.id %}"
+                   role="button">Снять со счёта</a>
+            </div>
+            {% endfor %}
+            <br>
+            {% include "bs/paginator.html" %}
+        </div>
+        <div class="col-lg-2">
+            <div class="row">
+                <span class="headline">Отчёты</span>
+            </div>
+            <div class="row">
+                <a class="btn btn-info report" href="{% url 'monthly_report' %}" role="button">Месячный отчёт об операциях</a>
             </div>
         </div>
-    </main>
+    </div>
+</main>
+{% endif %}
+{% endif %}
+
 {% endblock %}
