@@ -31,6 +31,17 @@ class Client(models.Model):
     address = models.CharField(max_length=100)
 
 
+class Worker(models.Model):
+    full_name = models.CharField(max_length=30)
+    login = models.CharField(max_length=20)
+    birthday = models.DateField()
+    contract_number = models.CharField(max_length=10)
+    date_conclusion = models.DateField()
+    tel = models.CharField(max_length=12)
+    address = models.CharField(max_length=100)
+    permissions = models.CharField(max_length=30)
+
+
 class Account(models.Model):
     update_time = models.DateField()
     currency = models.CharField(max_length=3)

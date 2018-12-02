@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from bs.models import User, Client, Account, History_of_changes, Transfer, Rate, IdClientData
+from bs.models import User, Client, Account, History_of_changes, Transfer, Rate, IdClientData, Worker
 import sqlite3
 import datetime
 from django.http import HttpResponse
@@ -17,6 +17,30 @@ def paginator(user_list, request):
     except EmptyPage:
         user_list = paginator.page(paginator.num_pages)
     return user_list
+
+
+#request.user.username
+def check_admin_permisions(username):
+    print("username =", username)
+    conn = sqlite3.connect("db.sqlite3")
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM bs_user WHERE username = ?", (username,))
+    id = cursor.fetchall()[0][0]
+    print("id =", id)
+    cursor.execute("SELECT group_id FROM bs_user_groups WHERE user_id = ?", (id,))
+    if cursor.fetchall()[0][0] == 2:
+        return 1
+    return -1
+
+
+def change_of_rate(request):
+    if check_admin_permisions(request.user.username) < 0:
+        return render(request, 'bs/permission_denied.html', {})
+    return render(request, 'bs/change_of_rate.html', {})
+
+
+def permission_denied(request):
+    return render(request, 'bs/permission_denied.html', {})
 
 
 def index(request):
@@ -109,6 +133,32 @@ def transfer(request, id):
     return render(request, 'bs/transfer.html', {"accounts": accounts})
 
 
+def worker_list(request):
+    if check_admin_permisions(request.user.username) < 0:
+        return render(request, 'bs/permission_denied.html', {})
+    worker_list = Worker.objects.all().order_by('full_name')
+    print(worker_list)
+    worker_list = paginator(worker_list, request)
+    print(worker_list)
+    return render(request, 'bs/worker_list.html', {"worker_list": worker_list})
+
+
+def worker_data(request, id):
+    if check_admin_permisions(request.user.username) < 0:
+        return render(request, 'bs/permission_denied.html', {})
+    if request.method == "POST":
+        conn = sqlite3.connect("db.sqlite3")
+        cursor = conn.cursor()
+        input_data = [(request.POST["InputLogin"], request.POST["InputTel"], request.POST["InputAddress"], id)]
+        cursor.executemany("UPDATE bs_worker SET login=?, tel=?, address=? WHERE id=?", input_data)
+        conn.commit()
+
+    worker_data = Worker.objects.get(pk=id)
+    worker_data.birthday = str(worker_data.birthday)
+    worker_data.date_conclusion = str(worker_data.date_conclusion)
+    return render(request, 'bs/worker_data.html', {"worker_data": worker_data})
+
+
 def client_data(request, id):
     if request.method == "POST":
         conn = sqlite3.connect("db.sqlite3")
@@ -140,7 +190,9 @@ def make_a_removal(id, sum):
 def error_removal(request, id):
     conn = sqlite3.connect("db.sqlite3")
     cursor = conn.cursor()
-    cursor.execute("SELECT bs_client.id, bs_client.full_name FROM bs_account JOIN bs_client on bs_account.cl_id_id = bs_client.id WHERE bs_account.id = ?", (id,))
+    cursor.execute(
+        "SELECT bs_client.id, bs_client.full_name FROM bs_account JOIN bs_client on bs_account.cl_id_id = bs_client.id WHERE bs_account.id = ?",
+        (id,))
     result = cursor.fetchall()
     clients = [result[0][0], result[0][1]]
     conn.commit()
@@ -178,12 +230,14 @@ def make_a_replenishment(id, sum):
     conn.commit()
 
 
-def monthly_report(request, date = datetime.date.today()):
+def monthly_report(request, date=datetime.date.today()):
     conn = sqlite3.connect("db.sqlite3")
     cursor = conn.cursor()
     print(date.month)
     print(date.year)
-    cursor.execute("SELECT * FROM bs_history_of_changes WHERE strftime('%m', update_time) = ? AND strftime('%Y', update_time) = ?", (str(date.month), str(date.year)))
+    cursor.execute(
+        "SELECT * FROM bs_history_of_changes WHERE strftime('%m', update_time) = ? AND strftime('%Y', update_time) = ?",
+        (str(date.month), str(date.year)))
     histories = cursor.fetchall()
     conn.commit()
     return render(request, 'bs/monthly_report.html', {"histories": histories})

@@ -4,8 +4,6 @@
 {% include "bs/nav_panel.html" %}
 
 {% if user.is_authenticated %}
-вы авторизованы
-{% if perms.bs.client.add_client %}
 <main role="main" class="container">
     <div class="row">
         <div class="col-lg-10">
@@ -28,17 +26,8 @@
             <br>
             {% include "bs/paginator.html" %}
         </div>
-        <div class="col-lg-2">
-            <div class="row">
-                <span class="headline">Отчёты</span>
-            </div>
-            <div class="row">
-                <a class="btn btn-info report" href="{% url 'monthly_report' %}" role="button">Месячный отчёт об операциях</a>
-            </div>
-        </div>
+        {% include "bs/right_menu.html" %}
     </div>
 </main>
 {% endif %}
-{% endif %}
-
 {% endblock %}

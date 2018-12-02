@@ -1,0 +1,27 @@
+{% include "bs/base.html" %}
+{% load static %}
+{% block content %}
+{% include "bs/nav_panel.html" %}
+
+{% if user.is_authenticated %}
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="row">
+                <span class="headline">Сотрудники банка</span>
+            </div>
+            {% for worker in worker_list %}
+            <div class="row">
+                <div class="col-lg-3">
+                    <a class="nav-link" href="{% url 'worker_data' worker.id %}"><span class="user_name">{{worker.full_name}}</span></a>
+                </div>
+            </div>
+            {% endfor %}
+            <br>
+            {% include "bs/paginator.html" %}
+        </div>
+        {% include "bs/right_menu.html" %}
+    </div>
+</main>
+{% endif %}
+{% endblock %}
