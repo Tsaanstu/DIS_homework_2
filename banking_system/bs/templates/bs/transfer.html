@@ -3,6 +3,8 @@
 {% block content %}
 {% include "bs/nav_panel.html" %}
 
+<script src="{% static 'js/transfer.js' %}"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 
 <main role="main" class="container">
     <div class="row">
@@ -43,7 +45,8 @@
                         <label for="currency_1"> Сумма в валюте исходного счёта</label>
                     </div>
                     <div class="col-lg-6">
-                        <input id="currency_1"><br>
+                        <input id="currency_1">
+                        <button type="button" class="btn btn-secondary" id="currency_1_button" style="margin-left: 3%;" onclick="conversion_first()"> Отобразить в исходной валюте </button><br>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 5%;">
@@ -52,9 +55,10 @@
                     </div>
                     <div class="col-lg-6">
                         <input id="currency_2">
+                        <button type="button" class="btn btn-secondary" id="currency_2_button" style="margin-left: 3%;" onclick="conversion_second()"> Отобразить в конечной валюте </button>
                     </div>
                 </div>
-                <input type="submit" class="btn btn-secondary" style="margin-top: 5%;">
+                <button type="submit" class="btn btn-secondary" class="btn btn-secondary" style="margin-top: 5%;"> Совершить перевод </button>
             </form>
         </div>
     </div>

@@ -31,10 +31,17 @@ def report(request, id):
     return render(request, 'bs/report.html', {})
 
 
-def transfer(request, id):
-    # if request.method == "POST":
-    #     print(request.POST.get("account_num"))
+def conversion(request):#, cur1, cur2):
+    koef = float(1.5)
+    print("koef = ", end="")
+    print(koef)
+    return HttpResponse(koef, content_type='text/html')
 
+
+def transfer(request, id):
+    if request.method == "POST":
+        print("value is ", end="")
+        print(request.POST["outgoing_account_num"])
     db_accounts = Account.objects.all().filter(cl_id=id)
     accounts = list()
     for i in db_accounts:

@@ -11,4 +11,5 @@ urlpatterns = [
     path('transfer/<int:id>/', views.transfer, name='transfer'),
     path('report/<int:id>/', views.report, name='report'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'conversion/', views.conversion, name='conversion'),
 ]
