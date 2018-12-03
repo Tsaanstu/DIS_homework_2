@@ -145,11 +145,8 @@ def transfer(request, id):
         first_id = request.POST["outgoing_account_num"]
         second_id = request.POST["incoming_account_num"]
         transfer_sum = request.POST["currency_1"]
-        print(first_id)
-        print(second_id)
-        print(transfer_sum)
-        make_a_transfer(first_id, second_id, float(transfer_sum))
-        print("Перевод!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        if first_id != second_id:
+            make_a_transfer(first_id, second_id, float(transfer_sum))
 
     db_accounts = Account.objects.all().filter(cl_id=id)
     accounts = list()
