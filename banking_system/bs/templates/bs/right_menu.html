@@ -6,21 +6,20 @@
         <span class="headline">Отчёты</span>
     </div>
     <div class="row">
-        <a class="btn btn-info report" href="{% url 'monthly_report' %}" role="button">Месячный отчёт об операциях</a>
+        <a class="btn btn-info" href="{% url 'monthly_report' %}" role="button">Месячный отчёт об операциях</a>
     </div>
     <div class="row right_menu">
         <span class="headline">Валюта</span>
     </div>
     <div class="row">
-        <a class="btn btn-info report" href="{% url 'change_of_rate' %}" role="button">Изменение валютного курса</a>
+        <a class="btn btn-info" href="{% url 'change_of_rate' %}" role="button">Изменение валютного курса</a>
     </div>
     <div class="row right_menu">
         <span class="headline">Администраторам</span>
     </div>
     <div class="row">
-        <a class="btn btn-info report" href="{% url 'worker_list' %}" role="button">Список сотрудников</a>
+        <a class="btn btn-info" href="{% url 'worker_list' %}" role="button">Список сотрудников</a>
     </div>
-</div>
 </div>
 {% endif %}
 {% endblock %}

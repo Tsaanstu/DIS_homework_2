@@ -1,3 +1,13 @@
+.btn_client_data {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 200px;
+    height: 40px;
+}
+
 body {
     background-color: #ffffff;
     color: #000000;
@@ -20,11 +30,6 @@ body {
 
 .right_menu {
     margin-top: 20%;
-}
-
-.report {
-    width: 400px;
-    height: 40px;
 }
 
 .btn_list {

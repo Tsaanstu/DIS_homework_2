@@ -20,6 +20,7 @@ urlpatterns = [
     path('new_account/<int:id>/', views.new_account, name='new_account'),
     path('account_list/<int:id>/', views.account_list, name='account_list'),
     path('delete_account/<int:id>/', views.delete_account, name='delete_account'),
+    path('logged_out/', views.logged_out, name='logged_out'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'conversion/', views.conversion, name='conversion'),
     url(r'change_of_rate/', views.change_of_rate, name='change_of_rate'),

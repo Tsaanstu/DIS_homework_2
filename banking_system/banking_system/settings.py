@@ -124,5 +124,6 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/logged_out'
 
 AUTH_USER_MODEL = 'bs.User'

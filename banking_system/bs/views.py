@@ -56,6 +56,10 @@ def change_of_rate(request):
     return render(request, 'bs/change_of_rate.html', {"rates": rates})
 
 
+def logged_out(request):
+    return render(request, 'bs/logged_out.html', {})
+
+
 def permission_denied(request):
     return render(request, 'bs/permission_denied.html', {})
 
