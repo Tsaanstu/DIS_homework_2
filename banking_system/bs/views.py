@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from bs.models import User, Client, Account, History_of_changes, Transfer, Rate, IdClientData, Worker
 import sqlite3
 import datetime
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 def paginator(user_list, request):
@@ -288,7 +288,7 @@ def create_new_account(id, currency, sum):
 def new_account(request, id):
     if request.method == "POST":
         create_new_account(id, request.POST["account_currency"], float(request.POST["sum"]))
-        return account_list(request, id)
+        return HttpResponseRedirect('/client_data/' + str(id))
     currencies = []
     full_name = Client.objects.get(pk=id)
     full_name = full_name.full_name
@@ -303,19 +303,8 @@ def delete_account(request, id):
     account = Account.objects.get(pk=id)
     account.update_time = str(account.update_time)
     client_id = account.cl_id.id
+    print("client id =", client_id)
     if request.method == "POST":
         Account.objects.filter(pk=id).delete()
-        full_name = Client.objects.get(pk=client_id)
-        full_name = full_name.full_name
-        account_list = []
-        temp_account_list = Account.objects.all().filter(cl_id=client_id)
-        for i in temp_account_list:
-            j = []
-            j.append(i.id)
-            j.append(i.update_time)
-            j.append(i.balance)
-            j.append(i.currency)
-            j.append(full_name)
-            account_list.append(j)
-        return render(request, 'bs/account_list.html', {"account_list": account_list})
+        return HttpResponseRedirect('/client_data/' + str(client_id))
     return render(request, 'bs/delete_account.html', {"account": account})
