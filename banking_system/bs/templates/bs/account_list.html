@@ -1,0 +1,39 @@
+{% include "bs/base.html" %}
+{% load static %}
+{% block content %}
+{% include "bs/nav_panel.html" %}
+
+{% if user.is_authenticated %}
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="row">
+                <span class="headline">Список счетов {{account_list.0.4}}</span>
+            </div>
+            {% for account in account_list %}
+            <div class="row" style="margin-top: 5px;">
+                <div class="col-lg-2">
+                    {{account.0}}
+                </div>
+                <div class="col-lg-2">
+                    {{account.1}}
+                </div>
+                <div class="col-lg-2">
+                    {{account.2}}
+                </div>
+                <div class="col-lg-2">
+                    {{account.3}}
+                </div>
+                <div class="col-lg-2">
+                    <a class="btn btn-secondary" id={{account.0}} href="{% url 'delete_account' account.0 %}" role="button">Закрыть счёт</a>
+                </div>
+            </div>
+            {% endfor %}
+            <br>
+            {% include "bs/paginator.html" %}
+        </div>
+        {% include "bs/right_menu.html" %}
+    </div>
+</main>
+{% endif %}
+{% endblock %}

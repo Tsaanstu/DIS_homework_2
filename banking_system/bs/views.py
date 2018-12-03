@@ -19,7 +19,7 @@ def paginator(user_list, request):
     return user_list
 
 
-#request.user.username
+#  request.user.username
 def check_admin_permisions(username):
     print("username =", username)
     conn = sqlite3.connect("db.sqlite3")
@@ -258,3 +258,64 @@ def replenishment(request, id):
             i.update_time) + "; валюта: " + str(i.currency) + ", " + str(i.balance)))
     print(datetime.date.today())
     return render(request, 'bs/replenishment.html', {"accounts": accounts})
+
+
+def account_list(request, id):
+    full_name = Client.objects.get(pk=id)
+    full_name = full_name.full_name
+    account_list = []
+    temp_account_list = Account.objects.all().filter(cl_id=id)
+    for i in temp_account_list:
+        j = []
+        j.append(i.id)
+        j.append(i.update_time)
+        j.append(i.balance)
+        j.append(i.currency)
+        j.append(full_name)
+        account_list.append(j)
+    return render(request, 'bs/account_list.html', {"account_list": account_list})
+
+
+def create_new_account(id, currency, sum):
+    conn = sqlite3.connect("db.sqlite3")
+    cursor = conn.cursor()
+    update_time = datetime.date.today()
+    input_data = [(update_time, currency, sum, id)]
+    cursor.executemany('INSERT INTO bs_account (update_time, currency, balance, cl_id_id) VALUES (?, ?, ?, ?)', input_data)
+    conn.commit()
+
+
+def new_account(request, id):
+    if request.method == "POST":
+        create_new_account(id, request.POST["account_currency"], float(request.POST["sum"]))
+        return account_list(request, id)
+    currencies = []
+    full_name = Client.objects.get(pk=id)
+    full_name = full_name.full_name
+    rates = Rate.objects.all()
+    for i in rates:
+        if currencies.count([i.source_currency, full_name]) == 0:
+            currencies.append([i.source_currency, full_name])
+    return render(request, 'bs/new_account.html', {"currencies": currencies})
+
+
+def delete_account(request, id):
+    account = Account.objects.get(pk=id)
+    account.update_time = str(account.update_time)
+    client_id = account.cl_id.id
+    if request.method == "POST":
+        Account.objects.filter(pk=id).delete()
+        full_name = Client.objects.get(pk=client_id)
+        full_name = full_name.full_name
+        account_list = []
+        temp_account_list = Account.objects.all().filter(cl_id=client_id)
+        for i in temp_account_list:
+            j = []
+            j.append(i.id)
+            j.append(i.update_time)
+            j.append(i.balance)
+            j.append(i.currency)
+            j.append(full_name)
+            account_list.append(j)
+        return render(request, 'bs/account_list.html', {"account_list": account_list})
+    return render(request, 'bs/delete_account.html', {"account": account})

@@ -1,0 +1,37 @@
+{% include "bs/base.html" %}
+{% load static %}
+{% block content %}
+{% include "bs/nav_panel.html" %}
+
+{% if user.is_authenticated %}
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="headline">Счёт №{{account.id}}. Владелец: {{account.cl_id.full_name}}</div>
+            </div>
+            <div class="row">
+                <form method="POST" onsubmit="return confirm('Применить изменения?');">
+                    {% csrf_token %}
+                     <div class="form-group">
+                        <label for="account.balance"><span class="text_style">Баланс</span></label>
+                        <input class="form-control" id="account.balance" name="account.balance" disabled value={{account.balance}}>
+                    </div>
+                    <div class="form-group">
+                        <label for="account.update_time"><span class="text_style">Время обновления</span></label>
+                        <input class="form-control" id="account.update_time" name="account.update_time" disabled value={{account.update_time}}>
+                    </div>
+                    <div class="form-group">
+                        <label for="account.currency"><span class="text_style">Валюта счёта</span></label>
+                        <input class="form-control" id="account.currency" name="account.currency" disabled value={{account.currency}}>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-outline-secondary button_update">Закрыть счёт</button>
+                    <br><br>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endif %}
+{% endblock %}
