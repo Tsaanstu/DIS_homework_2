@@ -2,13 +2,15 @@
 <div class="pagination">
     <span class="step-links pagination">
     {% if clients.has_previous %}
-        <a href="?page={{ clients.previous_page_number }}"><button type="button" class="listing_btn"><</button></a>
+        <a class="page-link" href="?page={{ clients.previous_page_number }}">Previous</a>
     {% endif %}
     <span class="current">
-        <button type="button" class="listing_btn"> Page {{ clients.number }} of {{ clients.paginator.num_pages }}.</button>
+        <div class="page-item disabled">
+            <a class="page-link" href="#">Page {{ clients.number }} of {{ clients.paginator.num_pages }}</a>
+        </div>
     </span>
     {% if clients.has_next %}
-        <a href="?page={{ clients.next_page_number }}"><button type="button" class="listing_btn">></button></a>
+        <a class="page-link" href="?page={{ clients.next_page_number }}">Next</a>
     {% endif %}
     </span>
 </div>
