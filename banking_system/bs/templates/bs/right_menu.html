@@ -2,19 +2,19 @@
 {% block content %}
 {% if user.is_authenticated %}
 <div class="col-lg-2">
-    <div class="row">
+    <div class="row right_menu">
         <span class="headline">Отчёты</span>
     </div>
     <div class="row">
         <a class="btn btn-info report" href="{% url 'monthly_report' %}" role="button">Месячный отчёт об операциях</a>
     </div>
-    <div class="row" style="margin-top: 20%;">
+    <div class="row right_menu">
         <span class="headline">Валюта</span>
     </div>
     <div class="row">
         <a class="btn btn-info report" href="{% url 'change_of_rate' %}" role="button">Изменение валютного курса</a>
     </div>
-    <div class="row" style="margin-top: 20%;">
+    <div class="row right_menu">
         <span class="headline">Администраторам</span>
     </div>
     <div class="row">

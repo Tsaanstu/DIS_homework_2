@@ -1,0 +1,60 @@
+{% include "bs/base.html" %}
+{% load static %}
+{% block content %}
+{% include "bs/nav_panel.html" %}
+
+{% if user.is_authenticated %}
+
+<script src='{% static "js/rates_update.js" %}'></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="row">
+                <span class="headline">Курсы валют</span>
+            </div>
+            <div class="row" style="margin-top: 5px;">
+                <div class="col-lg-2">
+                    <span class="rate_headline">Исходная валюта</span>
+                </div>
+                <div class="col-lg-2">
+                    <span class="rate_headline">Конечная валюта</span>
+                </div>
+                <div class="col-lg-2">
+                    <span class="rate_headline">Последнее обновление</span>
+                </div>
+                <div class="col-lg-2">
+                    <span class="rate_headline">Коэффициент</span>
+                </div>
+            </div>
+            <br>
+            <form method="POST">
+                {% csrf_token %}
+                {% for rate in rates %}
+                <div class="row" style="margin-top: 5px;">
+                    <div class="col-lg-2">
+                        <input class="form-control" name="InputSourceCurrency" disabled value={{rate.source_currency}}>
+                    </div>
+                    <div class="col-lg-2">
+                        <input class="form-control" name="InputFinalCurrency" disabled value={{rate.final_currency}}>
+                    </div>
+                    <div class="col-lg-2">
+                        <input class="form-control" name="InputUpdate" disabled value={{rate.update}}>
+                    </div>
+                    <div class="col-lg-2">
+                        <input class="form-control" name="InputCost" value={{rate.cost}}>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" class="rate_btn" id={{rate.id}} value="Обновить" name="Delete">
+                    </div>
+                </div>
+                {% endfor %}
+            </form>
+            <br>
+        </div>
+        {% include "bs/right_menu.html" %}
+    </div>
+</main>
+{% endif %}
+{% endblock %}

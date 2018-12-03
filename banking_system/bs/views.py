@@ -4,7 +4,7 @@ from bs.models import User, Client, Account, History_of_changes, Transfer, Rate,
 import sqlite3
 import datetime
 from django.http import HttpResponse, HttpResponseRedirect
-
+from django.views.decorators.csrf import csrf_exempt
 
 def paginator(user_list, request):
     paginator = Paginator(user_list, 15)
@@ -21,22 +21,39 @@ def paginator(user_list, request):
 
 #  request.user.username
 def check_admin_permisions(username):
-    print("username =", username)
     conn = sqlite3.connect("db.sqlite3")
     cursor = conn.cursor()
     cursor.execute("SELECT id FROM bs_user WHERE username = ?", (username,))
     id = cursor.fetchall()[0][0]
-    print("id =", id)
     cursor.execute("SELECT group_id FROM bs_user_groups WHERE user_id = ?", (id,))
     if cursor.fetchall()[0][0] == 2:
         return 1
     return -1
 
 
+def update_rate(id, cost):
+    conn = sqlite3.connect("db.sqlite3")
+    cursor = conn.cursor()
+    cursor.execute('UPDATE bs_rate SET cost = ?, "update" = ? WHERE id = ?', (cost, datetime.date.today(), id))
+    conn.commit()
+
+
+@csrf_exempt
 def change_of_rate(request):
     if check_admin_permisions(request.user.username) < 0:
         return render(request, 'bs/permission_denied.html', {})
-    return render(request, 'bs/change_of_rate.html', {})
+
+    if request.method == "POST":
+        id = request.POST.get('id')
+        cost = request.POST.get('cost')
+        update_rate(id, cost)
+
+
+    rates = Rate.objects.all()
+    for i in rates:
+        i.update = str(i.update)
+
+    return render(request, 'bs/change_of_rate.html', {"rates": rates})
 
 
 def permission_denied(request):

@@ -14,7 +14,7 @@ urlpatterns = [
     path('error_removal/<int:id>/', views.error_removal, name='error_removal'),
     path('monthly_report/', views.monthly_report, name='monthly_report'),
     path('permission_denied/', views.permission_denied, name='permission_denied'),
-    path('change_of_rate/', views.change_of_rate, name='change_of_rate'),
+    # path('change_of_rate/', views.change_of_rate, name='change_of_rate'),
     path('worker_list/', views.worker_list, name='worker_list'),
     path('worker_data/<int:id>/', views.worker_data, name='worker_data'),
     path('new_account/<int:id>/', views.new_account, name='new_account'),
@@ -22,4 +22,5 @@ urlpatterns = [
     path('delete_account/<int:id>/', views.delete_account, name='delete_account'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'conversion/', views.conversion, name='conversion'),
+    url(r'change_of_rate/', views.change_of_rate, name='change_of_rate'),
 ]

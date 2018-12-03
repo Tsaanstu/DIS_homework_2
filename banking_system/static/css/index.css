@@ -3,6 +3,25 @@ body {
     color: #000000;
 }
 
+.rate_btn{
+    border-radius: 0.25rem;
+    color: #212529;
+    background-color: #ffc107;
+    border-color: #ffc107;
+    width:200px;
+	font-size:14pt;
+}
+
+.rate_btn:hover {
+  color: #212529;
+  background-color: #e0a800;
+  border-color: #d39e00;
+}
+
+.right_menu {
+    margin-top: 20%;
+}
+
 .report {
     width: 400px;
     height: 40px;
@@ -14,7 +33,7 @@ body {
     border-color: #6c757d;
     margin-left: 5px;
     margin-right: 5px;
-    width: 200px;
+    width: 150px;
     height: 40px;
 }
 
@@ -22,6 +41,12 @@ body {
     font-size: 20px;
     text-decoration: underline;
     color: #007bff;
+}
+
+.rate_headline {
+    font-size: 20px;
+    font-style: italic;
+    margin-bottom: 20px;
 }
 
 .headline {

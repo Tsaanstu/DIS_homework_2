@@ -12,7 +12,7 @@
             </div>
             {% for client in clients %}
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <a class="nav-link" href="{% url 'client_data' client.id %}"><span class="user_name">{{client.full_name}}</span></a>
                 </div>
                 <a class="btn btn-secondary btn_list" id={{client.id}} href="{% url 'transfer' client.id %}"
