@@ -217,23 +217,17 @@ def make_a_removal(id, sum):
 
 
 def error_removal(request, id):
-    conn = sqlite3.connect("db.sqlite3")
-    cursor = conn.cursor()
-    cursor.execute(
-        "SELECT bs_client.id, bs_client.full_name FROM bs_account JOIN bs_client on bs_account.cl_id_id = bs_client.id WHERE bs_account.id = ?",
-        (id,))
-    result = cursor.fetchall()
-    clients = [result[0][0], result[0][1]]
-    conn.commit()
-    return render(request, 'bs/error_removal.html', {"clients": clients})
+    client = Client.objects.get(pk=id)
+    return render(request, 'bs/error_removal.html', {"client": client})
 
 
 def removal(request, id):
     if request.method == "POST":
         r_id = request.POST["outgoing_account_num"]
         sum = request.POST["currency_1"]
+        print(id)
         if (make_a_removal(r_id, float(sum)) == 0):
-            return error_removal(request, id)
+            return HttpResponseRedirect('/error_removal/' + str(id))
 
     db_accounts = Account.objects.all().filter(cl_id=id)
     accounts = list()

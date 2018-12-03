@@ -10,10 +10,10 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="row">
-                <div class="headline">Снятие средств со счёта {{accounts.0.client_name}}</div>
+                <div class="headline">Снятие средств со счёта {{client.full_name}}</div>
             </div>
             <strong>Невозможно снять средства со счёта, снимаемая сумма превышает текущий баланс</strong><br>
-            <a class="btn btn-secondary btn_list removal" id={{clients.0}} href="{% url 'removal' clients.0 %}" role="button" style="margin-top: 3%;">Повторить операцию?</a>
+            <a class="btn btn-secondary btn_list removal" href="{% url 'removal' client.id %}" role="button" style="margin-top: 3%; width: 200px;">Повторить операцию?</a>
         </div>
     </div>
 </main>
