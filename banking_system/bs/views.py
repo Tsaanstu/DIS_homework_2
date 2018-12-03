@@ -112,6 +112,10 @@ def make_a_transfer(first_id, second_id, transfer_sum):
     cursor.execute(
         'INSERT INTO bs_transfer (tr_date, source_currency, source_sum, final_currency, final_sum, final_his_id_id, source_his_id_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
         (date, first_cur, transfer_sum, second_cur, transfer_sum * koef, first_hid_id, second_hid_id))
+
+    cursor.execute('UPDATE bs_account SET balance = ?, update_time = ? WHERE id = ?', (first_old_sum - transfer_sum, datetime.date.today(), first_id))
+    cursor.execute('UPDATE bs_account SET balance = ?, update_time = ? WHERE id = ?', (second_new_sum, datetime.date.today(), second_id))
+
     conn.commit()
 
 
@@ -141,7 +145,11 @@ def transfer(request, id):
         first_id = request.POST["outgoing_account_num"]
         second_id = request.POST["incoming_account_num"]
         transfer_sum = request.POST["currency_1"]
+        print(first_id)
+        print(second_id)
+        print(transfer_sum)
         make_a_transfer(first_id, second_id, float(transfer_sum))
+        print("Перевод!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
     db_accounts = Account.objects.all().filter(cl_id=id)
     accounts = list()

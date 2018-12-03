@@ -1,7 +1,7 @@
 {% include "bs/base.html" %}
 {% load static %}
-
 {% block content %}
+{% include "bs/nav_panel.html" %}
 
 {% if form.errors %}
     <p class="headline" style="margin-left: 18%";>Вы ввели неверный пароль или такого пользователя не существует. Пожалуйста, попробуйте ещё раз.</p>
